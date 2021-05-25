@@ -119,7 +119,7 @@
 	\renewcommand{\chapterlinesformat}[3]{%
 		\@hangfrom{##2}{##3}}
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\thechapter%
+	\mbox{\chapappifchapterprefix{\nobreakspace}\liningnums{\thechapter}%
 		\autodot\IfUsePrefixLine{}{\enskip}}}
 
 	\RedeclareSectionCommand[beforeskip=0cm,afterskip=10\vscale]{chapter}
@@ -130,7 +130,7 @@
 % The Kao style
 \DeclareDocumentCommand{\chapterstylekao}{}{%
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{2.85}{\thechapter\autodot}}%
+		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{2.85}{\liningnums{\thechapter}\autodot}}%
 	}%
 	\renewcommand\chapterlinesformat[3]{%
 		\vspace{3.5\vscale}%
@@ -150,7 +150,7 @@
 }
 \DeclareDocumentCommand{\chapterstylelines}{}{%
 	\renewcommand*{\chapterformat}{%
-		\chapappifchapterprefix{\nobreakspace}\scalebox{3.5}{\thechapter\autodot}%
+		\chapappifchapterprefix{\nobreakspace}\scalebox{3.5}{\liningnums{\thechapter}}%
 	}%
 	\renewcommand\chapterlinesformat[3]{%
 	  %\vspace*{-1cm}%
@@ -177,7 +177,7 @@
 % Image (Used internally for \chapterimage; normal users should not need this command)
 \DeclareDocumentCommand{\chapterstyleimage}{o m}{%
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\thechapter%
+		\mbox{\chapappifchapterprefix{\nobreakspace}\liningnums{\thechapter}%
 		\autodot\IfUsePrefixLine{}{\enskip}}%
 	}
     \renewcommand{\chapterlinesformat}[3]{%
@@ -216,17 +216,21 @@
 %----------------------------------------------------------------------------------------
 
 % Set KOMA fonts for book-specific elements
-\addtokomafont{part}{\normalfont\scshape\bfseries}
-\addtokomafont{partentry}{\normalfont\scshape\bfseries}
-\addtokomafont{chapter}{\normalfont\bfseries}
-\addtokomafont{chapterentry}{\normalfont\bfseries}
+\addtokomafont{part}{\normalfont\scshape\mdseries}
+\addtokomafont{partentry}{\normalfont\scshape\mdseries}
+\addtokomafont{chapter}{\normalfont\mdseries}
+\addtokomafont{chapterentry}{\normalfont\mdseries}
 
 % Set KOMA fonts for elements common to all classes
-\addtokomafont{section}{\normalfont\bfseries}
-\addtokomafont{subsection}{\normalfont\bfseries}
-\addtokomafont{subsubsection}{\normalfont\bfseries}
-\addtokomafont{paragraph}{\normalfont\bfseries}
-\setkomafont{descriptionlabel}{\normalfont\bfseries}
+\addtokomafont{section}{\normalfont\mdseries}
+\addtokomafont{subsection}{\normalfont\mdseries}
+\addtokomafont{subsubsection}{\normalfont\mdseries}
+\addtokomafont{paragraph}{\normalfont\mdseries}
+\setkomafont{descriptionlabel}{\normalfont\mdseries}
+
+\addtokomafont{disposition}{\rmfamily\mdseries\liningnums}
+\AfterTOCHead{\renewcommand\rmdefault{EBGaramond-LF}\normalfont} %for the toc
+\renewcommand{\headfont}{\itshape\liningnums}
 
 %----------------------------------------------------------------------------------------
 %	TOC, LOF & LOT

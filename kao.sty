@@ -1043,11 +1043,12 @@
     \fi
 \else
 	\RequirePackage[utf8]{inputenc} % utf8 encoding in the input (.tex) file
-	\RequirePackage[T1]{fontenc} % utf8 encoding in the output (.pdf) file
 
 	\RequirePackage{amssymb} % Math symbols, including \blacktriangleright, used for bullets
-	\RequirePackage[scaled=.97,helvratio=.93,p,theoremfont]{newpxtext} % Serif palatino font
-	\RequirePackage[vvarbb,smallerops,bigdelims]{newpxmath} % Math palatino font
+	\usepackage[scaled=.97,oldstyle,p]{ebgaramond} % Option 'lining' for lined numbers, 'oldstyle' for text figure numbers
+	\usepackage[cmintegrals,cmbraces]{newtxmath} % required for EB Garamond math
+	\usepackage{ebgaramond-maths} % EB Garamond math
+	\RequirePackage[T1]{fontenc} % utf8 encoding in the output (.pdf) file
 	\RequirePackage[scaled=.85]{beramono} % Monospace font
 	\RequirePackage[scr=rsfso,cal=boondoxo]{mathalfa} % Mathcal from STIX, unslanted a bit
     \RequirePackage{morewrites} % Fix some errors related to floats
@@ -1055,8 +1056,9 @@
 
 % When using the Palatino (newpxtext) font, it is better to use a 
 % slightly larger stretch.
+% Kept the same for EB Garamond
 %\setstretch{1.10}
-\linespread{1.07} % Give Palatino more leading (space between lines)
+\linespread{1.07} % Give Palatino more leading (space between lines) 
 
 %----------------------------------------------------------------------------------------
 %	HYPERREFERENCES

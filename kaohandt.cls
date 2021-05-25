@@ -57,7 +57,7 @@
 \xpatchcmd{\@maketitle}{\begin{tabular}[t]{c}}{\begin{tabular}[t]{@{}l@{}}}{}{}
 
 % Set the font for the title
-\addtokomafont{title}{\normalfont\bfseries}
+\addtokomafont{title}{\normalfont\mdseries}
 
 % Customise the abstract
 \RequirePackage[style]{abstract}
@@ -83,11 +83,11 @@
 \unsettoc{toc}{totoc}
 
 % Set KOMA fonts for elements common to all classes
-\addtokomafont{section}{\normalfont\bfseries}
-\addtokomafont{subsection}{\normalfont\bfseries}
-\addtokomafont{subsubsection}{\normalfont\bfseries}
-\addtokomafont{paragraph}{\normalfont\bfseries}
-\setkomafont{descriptionlabel}{\normalfont\bfseries}
+\addtokomafont{section}{\normalfont\mdseries}
+\addtokomafont{subsection}{\normalfont\mdseries}
+\addtokomafont{subsubsection}{\normalfont\mdseries}
+\addtokomafont{paragraph}{\normalfont\mdseries}
+\setkomafont{descriptionlabel}{\normalfont\mdseries}
 
 %----------------------------------------------------------------------------------------
 %	NUMBERING
