@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % kaobook
 % LaTeX Class
-% Version 0.9.6 (2021/03/23)
+% Version 0.9.7 (2021/06/02)
 %
 % This template originates from:
 % https://www.LaTeXTemplates.com
@@ -25,15 +25,15 @@
 %----------------------------------------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{kaobook}[2021/03/23 v0.9.6 kaobook]
+\ProvidesClass{kaobook}[2021/06/02 v0.9.7 kaobook]
 \newcommand{\@baseclass}{scrbook} % Base class name
 
-\RequirePackage{kvoptions} % Manage class key-value options
+%\RequirePackage{kvoptions} % Manage class key-value options
 
-\SetupKeyvalOptions{
-    family = kao,
-    prefix = kao@
-}
+%\SetupKeyvalOptions{
+%    family = kao,
+%    prefix = kao@
+%}
 
 % Set the default options
 \PassOptionsToClass{a4paper}{\@baseclass}
@@ -41,16 +41,21 @@
 \PassOptionsToClass{parskip=half}{\@baseclass}
 \PassOptionsToClass{headings=optiontoheadandtoc}{\@baseclass}
 
-% Define kao-specific options
-\DeclareStringOption[1]{secnumdepth}
-
 % Pass through any other options to the base class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\@baseclass}} 
 
-\ProcessKeyvalOptions*
+%\ProcessKeyvalOptions*
 \ProcessOptions\relax % Process the options
 
 \LoadClass{\@baseclass} % Load the base class
+
+% Define kao-specific options
+%\DeclareStringOption[1]{secnumdepth}
+\DefineFamily{kao}
+\DefineFamilyMember[kaobook]{kao}
+\DefineFamilyKey[kaobook]{kao}{secnumdepth}[1]{\setcounter{secnumdepth}{#1}\FamilyKeyStateProcessed}
+\FamilyProcessOptions[kaobook]{kao}
+
 \RequirePackage{kao} % Load the code common to all classes
 
 %----------------------------------------------------------------------------------------
@@ -72,12 +77,7 @@
 % Main matter
 \let\oldmainmatter\mainmatter % Store the old command
 \renewcommand{\mainmatter}{%
-	% Add a blank page before the main matter if the front matter has an
-	% odd number of pages
-    \Ifthispageodd{%
-	  \afterpage{\blankpage}%
-	}{}%
-	\oldmainmatter% Call the old command
+    \oldmainmatter% Call the old command
 	\pagestyle{scrheadings}% Use a fancy style for the header and the footer
 	\pagelayout{margin}% Use a 1.5 column layout
 	\setchapterstyle{kao} % Choose the default chapter heading style
@@ -110,8 +110,9 @@
 
 \DeclareDocumentCommand{\setchapterstyle}{m}{%
 	\ifthenelse{\equal{plain}{#1}}{\chapterstyleplain}{}
+    \ifthenelse{\equal{bar}{#1}}{\chapterstylebar}{}
 	\ifthenelse{\equal{lines}{#1}}{\chapterstylelines}{}
-	\ifthenelse{\equal{kao}{#1}}{\chapterstylekao}{}
+    \ifthenelse{\equal{kao}{#1}}{\chapterstylekao}{}
 }
 
 % The default definition in KOMA script
@@ -119,29 +120,36 @@
 	\renewcommand{\chapterlinesformat}[3]{%
 		\@hangfrom{##2}{##3}}
 	\renewcommand*{\chapterformat}{%
-	\mbox{\chapappifchapterprefix{\nobreakspace}\liningnums{\thechapter}%
+		\mbox{\chapappifchapterprefix{\nobreakspace}\thechapter%
 		\autodot\IfUsePrefixLine{}{\enskip}}}
-
-	\RedeclareSectionCommand[beforeskip=0cm,afterskip=10\vscale]{chapter}
+    \RedeclareSectionCommand[beforeskip=0cm,afterskip=10\vscale]{chapter}
 	\setlength{\mtocshift}{-1\vscale}
 }
 
-
-% The Kao style
-\DeclareDocumentCommand{\chapterstylekao}{}{%
+% Gray bar
+\DeclareDocumentCommand{\chapterstylebar}{}{%
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{2.85}{\liningnums{\thechapter}\autodot}}%
-	}%
-	\renewcommand\chapterlinesformat[3]{%
-		\vspace{3.5\vscale}%
-		\smash{\makebox[0pt][l]{%
-			\parbox[b]{\textwidth}{\flushright{##3}}%
-			\makebox[\marginparsep][c]{\rule[-2\vscale]{1pt}{27.4\vscale+\f@size mm}}%
-			\parbox[b]{\marginparwidth}{##2}%
-		}}%
-	}%
-	\RedeclareSectionCommand[beforeskip=0cm,afterskip=10\vscale]{chapter}%
-    \setlength{\mtocshift}{-3\vscale}%
+		\mbox{\chapappifchapterprefix{\nobreakspace}\thechapter%
+		\autodot\IfUsePrefixLine{}{\enskip}}%
+	}
+	\renewcommand{\chapterlinesformat}[3]{%
+		\begin{tikzpicture}[remember picture, overlay]
+			\node[
+				anchor=south west,
+				xshift=\dimexpr - \hoffset - \oddsidemargin - 1in -1mm,%-30\hscale,
+				yshift=4.3mm,
+				rectangle,
+				fill=gray!20!white,
+				fill opacity=0.8,
+				inner ysep=5\vscale,
+				inner xsep=\dimexpr \hoffset + \oddsidemargin + 1in,%30\hscale,
+				text opacity=1,
+				text width=\paperwidth-40\hscale,
+			]{\@hangfrom{##2}{##3}};
+		\end{tikzpicture}
+	}
+    \RedeclareSectionCommand[beforeskip=-55\vscale,afterskip=6\vscale]{chapter}
+	\setlength{\mtocshift}{-1\vscale}
 }
 
 % Lines
@@ -150,7 +158,7 @@
 }
 \DeclareDocumentCommand{\chapterstylelines}{}{%
 	\renewcommand*{\chapterformat}{%
-		\chapappifchapterprefix{\nobreakspace}\scalebox{3.5}{\liningnums{\thechapter}}%
+		\chapappifchapterprefix{\nobreakspace}\scalebox{3.5}{\thechapter\autodot}%
 	}%
 	\renewcommand\chapterlinesformat[3]{%
 	  %\vspace*{-1cm}%
@@ -174,38 +182,49 @@
 	\setlength{\mtocshift}{-1\vscale}%
 }
 
-% Image (Used internally for \chapterimage; normal users should not need this command)
-\DeclareDocumentCommand{\chapterstyleimage}{o m}{%
+% The Kao style
+\DeclareDocumentCommand{\chapterstylekao}{}{%
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\liningnums{\thechapter}%
-		\autodot\IfUsePrefixLine{}{\enskip}}%
-	}
-    \renewcommand{\chapterlinesformat}[3]{%
-        \begin{tikzpicture}[remember picture, overlay]
-            \node (image) at (current page.north west) [
-                anchor=north west,
-                inner sep=0pt,
-                outer sep=0pt,
-            ]{\includegraphics[width=\paperwidth,height=#1,keepaspectratio=false]{#2}};
-            \node at (image.south west) [
-                anchor=south west,
-                inner ysep=5\vscale,
-                inner xsep=\hoffset+\oddsidemargin+1in,%30\hscale,
-                outer sep=-0.5pt,
-                fill=gray!20!white,
-                fill opacity=0.8,
-                text width=\textwidth+\marginparsep+\marginparwidth,
-            ]{\@hangfrom{##2}{##3}};
-        \end{tikzpicture}
-	}
+		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{2.85}{\thechapter\autodot}}%
+	}%
+	\renewcommand\chapterlinesformat[3]{%
+		\vspace{3.5\vscale}%
+		\if@twoside%
+			\Ifthispageodd{%
+				\smash{\makebox[0pt][l]{%
+					\parbox[b]{\textwidth}{\flushright{##3}}%
+					\makebox[\marginparsep][c]{\rule[-2\vscale]{1pt}{27.4\vscale+\f@size mm}}%
+					\parbox[b]{\marginparwidth}{##2}%
+				}}%
+			}{
+				\smash{\makebox[\textwidth][r]{%
+					\parbox[b]{\marginparwidth}{\flushright{##2}}%
+					\makebox[\marginparsep][c]{\rule[-2\vscale]{1pt}{27.4\vscale+\f@size mm}}%
+					\parbox[b]{\textwidth}{\flushleft{##3}}%
+				}}%
+			}
+		\else%
+			\smash{\makebox[0pt][l]{%
+				\parbox[b]{\textwidth}{\flushright{##3}}%
+				\makebox[\marginparsep][c]{\rule[-2\vscale]{1pt}{27.4\vscale+\f@size mm}}%
+				\parbox[b]{\marginparwidth}{##2}%
+			}}%
+		\fi%
+	}%
+	\RedeclareSectionCommand[beforeskip=0cm,afterskip=10\vscale]{chapter}%
+    \setlength{\mtocshift}{-3\vscale}%
 }
 
 % Takes as input the image path and optionally the "beforeskip"
-\DeclareDocumentCommand{\setchapterimage}{O{92\vscale} m}{%
-    \chapterstyleimage[#1]{#2}%
+\DeclareDocumentCommand{\setchapterimage}{O{55\vscale} m}{%
+	\setchapterpreamble[o]{%
+		\vspace*{-27\vscale}\hspace*{\dimexpr - \hoffset - \oddsidemargin - 1in}%
+		\includegraphics[width=\paperwidth,height=#1+27\vscale,keepaspectratio=false]{#2}%
+	}%
+    \chapterstylebar%
 	% beforeskip=-(figure_height-top_margin)
-    \RedeclareSectionCommand[beforeskip=\dimexpr #1 - \voffset - 1in, afterskip=6\vscale]{chapter}%
-	\setlength{\mtocshift}{0cm}%
+    \RedeclareSectionCommand[beforeskip=-#1, afterskip=6\vscale]{chapter}%
+    \setlength{\mtocshift}{0cm}%
 }
 
 % By default start with plain style
@@ -216,21 +235,17 @@
 %----------------------------------------------------------------------------------------
 
 % Set KOMA fonts for book-specific elements
-\addtokomafont{part}{\normalfont\scshape\mdseries}
-\addtokomafont{partentry}{\normalfont\scshape\mdseries}
-\addtokomafont{chapter}{\normalfont\mdseries}
-\addtokomafont{chapterentry}{\normalfont\mdseries}
+\addtokomafont{part}{\normalfont\scshape\bfseries}
+\addtokomafont{partentry}{\normalfont\scshape\bfseries}
+\addtokomafont{chapter}{\normalfont\bfseries}
+\addtokomafont{chapterentry}{\normalfont\bfseries}
 
 % Set KOMA fonts for elements common to all classes
-\addtokomafont{section}{\normalfont\mdseries}
-\addtokomafont{subsection}{\normalfont\mdseries}
-\addtokomafont{subsubsection}{\normalfont\mdseries}
-\addtokomafont{paragraph}{\normalfont\mdseries}
-\setkomafont{descriptionlabel}{\normalfont\mdseries}
-
-\addtokomafont{disposition}{\rmfamily\mdseries\liningnums}
-\AfterTOCHead{\renewcommand\rmdefault{EBGaramond-LF}\normalfont} %for the toc
-\renewcommand{\headfont}{\itshape\liningnums}
+\addtokomafont{section}{\normalfont\bfseries}
+\addtokomafont{subsection}{\normalfont\bfseries}
+\addtokomafont{subsubsection}{\normalfont\bfseries}
+\addtokomafont{paragraph}{\normalfont\bfseries}
+\setkomafont{descriptionlabel}{\normalfont\bfseries}
 
 %----------------------------------------------------------------------------------------
 %	TOC, LOF & LOT
@@ -244,7 +259,8 @@
 %	NUMBERING
 %----------------------------------------------------------------------------------------
 
-\setcounter{secnumdepth}{\kao@secnumdepth} % Set section numbering depth
+%\setcounter{secnumdepth}{\kao@secnumdepth} % Set section numbering 
+%depth
 
 \counterwithin*{sidenote}{chapter} % Uncomment to reset the sidenote counter at each chapter
 %\counterwithout{sidenote}{chapter} % Uncomment to have one sidenote counter for the whole document

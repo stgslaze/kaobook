@@ -2,16 +2,18 @@
 
 ## Acknowledgements
 
-This class is based on the work of [Ken Arroyo 
-Ohori](https://3d.bk.tudelft.nl/ken/en/) for his doctoral thesis. The 
-main ideas behind the layout can be found in this [blog 
-post](https://3d.bk.tudelft.nl/ken/en/2016/04/17/a-1.5-column-layout-in-latex.html). 
+This class is based on the work of [Ken Arroyo
+Ohori](https://3d.bk.tudelft.nl/ken/en/) for his doctoral thesis.
+The main ideas behind the layout can be found in this [blog
+post](https://3d.bk.tudelft.nl/ken/en/2016/04/17/a-1.5-column-layout-in-latex.html).
+The [Tufte-LaTeX class](https://github.com/Tufte-LaTeX/tufte-latex) has also been a
+source of ideas about the layout.
 
-The [Tufte-LaTeX class](https://github.com/Tufte-LaTeX/tufte-latex) has 
-also been a source of ideas about the layout.
-
-Finally my gratitude goes also to [Vel](https://www.vel.nz/) for his 
-patience and his invaluable suggestions about the design.
+My gratitude goes also to [Vel](https://www.vel.nz/), for his patience 
+and his invaluable suggestions about the design, and to all the people 
+who have contributed either on 
+[GitHub](https://github.com/fmarotta/kaobook/graphs/contributors) or by 
+sending e-mails.
 
 ## Description
 
@@ -34,6 +36,17 @@ The salient features of the class are as follows.
 A better description can be found at [LaTeX 
 Templates](http://www.latextemplates.com/template/kaobook). If you think 
 that a PDF is worth a thousand words, have a look at [this](example_and_documentation.pdf).
+
+## Showcase
+
+In the [examples](examples) directory you can find some sample 
+documents, but here are some more books or reports created with the 
+kaobook class. If you want to add a link to your work, please send me an 
+email or open a pull request!
+
+* [Growing Open Source Projects with a Stable
+Foundation](https://www.cyrius.com/foss-foundations/growing-open-source-projects.pdf)
+* [Cours De Physique - Mécanique Classique](https://femto-physique.fr/mecanique/pdf/book_meca.pdf)
 
 ## Getting Started
 
@@ -124,7 +137,7 @@ position of each element; this is true in particular for the positioning
 of floating elements like figures, tables, and margin notes.
 Occasionally, LaTeX can need up to four re-runs, so If the alignment of
 margin elements looks odd, or if they bleed into ther main text, try
-runnign pdflatex one more time.
+running pdflatex one more time.
 
 ## Updating kaobook
 
@@ -197,7 +210,7 @@ formatted blocks.
 I am always happy to help as much as I can, and I am glad if someone
 uses the `kaobook` class for their works, so there is no real need to do
 anything: the kaobook can be used just like any other LaTeX package (no 
-need to add copyright statements). However, if you want to aknowledge 
+need to add copyright statements). However, if you want to acknowledge 
 kaobook, adding somewhere a sentence like 'This book was typeset with the
 kaobook class' would suffice.
 
